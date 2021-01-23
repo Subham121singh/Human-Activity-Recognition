@@ -1,37 +1,113 @@
-## Welcome to GitHub Pages
+# <font color='cyan'>Human Activity Recognition</font>
 
-You can use the [editor on GitHub](https://github.com/Subham121singh/Human-Activity-Recognition/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+<br>
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Markdown
+<font color='orange'>This project is to build a model that predicts the human activities such as <b>Walking, Walking_Upstairs, Walking_Downstairs, Sitting, Standing or Laying</b>.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+This dataset is collected from 30 persons(referred as subjects in this dataset), performing different activities with a smartphone to their waists. The data is recorded with the help of sensors (accelerometer and Gyroscope) in that smartphone. This experiment was video recorded to label the data manually.</font>
 
-```markdown
-Syntax highlighted code block
+## <font color='cyan'>How data was recorded</font>
 
-# Header 1
-## Header 2
-### Header 3
+By using the sensors(Gyroscope and accelerometer) in a smartphone, they have captured '3-axial linear acceleration'(_tAcc-XYZ_) from accelerometer and '3-axial angular velocity' (_tGyro-XYZ_) from Gyroscope with several variations. 
 
-- Bulleted
-- List
+> prefix 't' in those metrics denotes time.
 
-1. Numbered
-2. List
+> suffix 'XYZ' represents 3-axial signals in X , Y, and Z directions.
 
-**Bold** and _Italic_ and `Code` text
+### <font color='cyan'>Feature names</font>
 
-[Link](url) and ![Image](src)
-```
+1. These sensor signals are preprocessed by applying noise filters and then sampled in fixed-width windows(sliding windows) of 2.56 seconds each with 50% overlap. ie., each window has 128 readings. 
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+2. From Each window, a feature vector was obtianed by calculating variables from the time and frequency domain.
+> In our dataset, each datapoint represents a window with different readings 
+3. The accelertion signal was saperated into Body and Gravity acceleration signals(___tBodyAcc-XYZ___ and ___tGravityAcc-XYZ___) using some low pass filter with corner frequecy of 0.3Hz.
 
-### Jekyll Themes
+4. After that, the body linear acceleration and angular velocity were derived in time to obtian _jerk signals_ (___tBodyAccJerk-XYZ___ and ___tBodyGyroJerk-XYZ___). 
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Subham121singh/Human-Activity-Recognition/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+5. The magnitude of these 3-dimensional signals were calculated using the Euclidian norm. This magnitudes are represented as features with names like _tBodyAccMag_, _tGravityAccMag_, _tBodyAccJerkMag_, _tBodyGyroMag_ and _tBodyGyroJerkMag_.
 
-### Support or Contact
+6. Finally, We've got frequency domain signals from some of the available signals by applying a FFT (Fast Fourier Transform). These signals obtained were labeled with ___prefix 'f'___ just like original signals with ___prefix 't'___. These signals are labeled as ___fBodyAcc-XYZ___, ___fBodyGyroMag___ etc.,.
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+7. These are the signals that we got so far.
+	+ tBodyAcc-XYZ
+	+ tGravityAcc-XYZ
+	+ tBodyAccJerk-XYZ
+	+ tBodyGyro-XYZ
+	+ tBodyGyroJerk-XYZ
+	+ tBodyAccMag
+	+ tGravityAccMag
+	+ tBodyAccJerkMag
+	+ tBodyGyroMag
+	+ tBodyGyroJerkMag
+	+ fBodyAcc-XYZ
+	+ fBodyAccJerk-XYZ
+	+ fBodyGyro-XYZ
+	+ fBodyAccMag
+	+ fBodyAccJerkMag
+	+ fBodyGyroMag
+	+ fBodyGyroJerkMag
+
+8. We can esitmate some set of variables from the above signals. ie., We will estimate the following properties on each and every signal that we recoreded so far.
+
+	+ ___mean()___: Mean value
+	+ ___std()___: Standard deviation
+	+ ___mad()___: Median absolute deviation 
+	+ ___max()___: Largest value in array
+	+ ___min()___: Smallest value in array
+	+ ___sma()___: Signal magnitude area
+	+ ___energy()___: Energy measure. Sum of the squares divided by the number of values. 
+	+ ___iqr()___: Interquartile range 
+	+ ___entropy()___: Signal entropy
+	+ ___arCoeff()___: Autorregresion coefficients with Burg order equal to 4
+	+ ___correlation()___: correlation coefficient between two signals
+	+ ___maxInds()___: index of the frequency component with largest magnitude
+	+ ___meanFreq()___: Weighted average of the frequency components to obtain a mean frequency
+	+ ___skewness()___: skewness of the frequency domain signal 
+	+ ___kurtosis()___: kurtosis of the frequency domain signal 
+	+ ___bandsEnergy()___: Energy of a frequency interval within the 64 bins of the FFT of each window.
+	+ ___angle()___: Angle between to vectors.
+
+9. We can obtain some other vectors by taking the average of signals in a single window sample. These are used on the angle() variable'
+`
+	+ gravityMean
+	+ tBodyAccMean
+	+ tBodyAccJerkMean
+	+ tBodyGyroMean
+	+ tBodyGyroJerkMean
+
+
+###  <font color='cyan'>Y_Labels(Encoded)</font>
++ In the dataset, Y_labels are represented as numbers from 1 to 6 as their identifiers.
+
+	- WALKING as __1__
+	- WALKING_UPSTAIRS as __2__
+	- WALKING_DOWNSTAIRS as __3__
+	- SITTING as __4__
+	- STANDING as __5__
+	- LAYING as __6__
+    
+## <font color='cyan'>Train and test data were saperated</font>
+ - The readings from ___70%___ of the volunteers were taken as ___trianing data___ and remaining ___30%___ subjects recordings were taken for ___test data___
+ 
+## <font color='cyan'>Data</font>
+
+* All the data is present in 'UCI_HAR_dataset/' folder in present working directory.
+     - Feature names are present in 'UCI_HAR_dataset/features.txt'
+     - ___Train Data___
+         - 'UCI_HAR_dataset/train/X_train.txt'
+         - 'UCI_HAR_dataset/train/subject_train.txt'
+         - 'UCI_HAR_dataset/train/y_train.txt'
+     - ___Test Data___
+         - 'UCI_HAR_dataset/test/X_test.txt'
+         - 'UCI_HAR_dataset/test/subject_test.txt'
+         - 'UCI_HAR_dataset/test/y_test.txt'
+         
+
+##<font color='cyan'> Data Size :</font>
+> 27 MB
+
+### <font color='cyan'>Dataset Link </font>
+> https://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
+
+<pre>Please go to the above link for more papers, articles and information about this dataset</pre>
